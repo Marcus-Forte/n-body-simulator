@@ -2,23 +2,27 @@
 
 #include <vector>
 
-BodyPublisher::BodyPublisher(std::string&& server_address) {
+BodyPublisher::BodyPublisher(std::string&& server_address, std::string&& name) {
   channel_ = grpc::CreateChannel(server_address, grpc::InsecureChannelCredentials());
   stub_ = addToScene::NewStub(channel_);
+  request_.set_entity_name(std::move(name));
+  request_.set_point_size(25.0);
+  google::protobuf::Empty reply;
+  stream_writer_ = stub_->steamPointClouds(&context_, &reply);
 }
 
-void BodyPublisher::addPointToScene(const std::vector<double> point, std::string name) {
-  grpc::ClientContext context;
+void BodyPublisher::addBodyToScene(const std::array<double, 3> position, const std::array<double, 3> color) {
+  auto body_pt = request_.add_points();
 
-  PointCloud3 request;
-  google::protobuf::Empty reply;
-  auto body_pt = request.add_points();
-  request.set_entity_name(std::move(name));
-  body_pt->set_x(point[0]);
-  body_pt->set_y(point[1]);
-  body_pt->set_z(point[2]);
-  body_pt->set_r(1.0);
-  body_pt->set_g(0.0);
-  body_pt->set_b(0.0);
-  stub_->addPointCloud(&context, request, &reply);
+  body_pt->set_x(position[0]);
+  body_pt->set_y(position[1]);
+  body_pt->set_z(position[2]);
+  body_pt->set_r(color[0]);
+  body_pt->set_g(color[1]);
+  body_pt->set_b(color[2]);
+}
+
+void BodyPublisher::sendToStream() {
+  stream_writer_->Write(request_);
+  request_.clear_points();
 }
