@@ -7,6 +7,7 @@ option(BUILD_TESTS "Build simulator tests" OFF)
 option(BUILD_GRPC_CLIENT "Build grpc data publisher" OFF)
 
 find_package(Eigen3 REQUIRED)
+
 if(USE_CLANG_TIDY)
   message(STATUS "Using clang-tidy")
   set(clangTidyChecks
@@ -27,15 +28,15 @@ if(USE_CLANG_TIDY)
 endif()
 
 add_executable(simulator 
-src/main.cc
-src/Body.cc
-src/BodySystem.cc)
+  src/main.cc
+  src/Body.cc
+  src/BodySystem.cc)
 target_include_directories(simulator PUBLIC include)
 target_link_libraries(simulator Eigen3::Eigen)
 
 if(BUILD_TESTS)
 message(STATUS "Building tests")
-add_subdirectory(test)
+add_subdirectory(tst)
 endif()
 
 if(BUILD_GRPC_CLIENT)
@@ -44,3 +45,15 @@ add_subdirectory(grpc)
 target_link_libraries(simulator publisher)
 endif()
 
+# Format
+file(GLOB_RECURSE sourcefiles
+"include/*.hh"
+"src/*.cc"
+"tst/*.cc"
+
+)
+string (REPLACE ";" " " sourcefiles "${sourcefiles}")
+add_custom_target(format ALL
+COMMAND sh -c "clang-format -i ${sourcefiles} --verbose"
+
+VERBATIM)

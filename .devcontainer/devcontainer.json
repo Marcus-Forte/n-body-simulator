@@ -9,8 +9,12 @@
 		"vscode": {
 			"extensions": [
 				"ms-vscode.cpptools-extension-pack",
-				"xaver.clang-format"
-			]
+				"llvm-vs-code-extensions.vscode-clangd",
+				"jebbs.plantuml"
+			],
+			"settings": {
+				"cmake.options.statusBarVisibility": "compact"
+			}
 		}
 	}
 
