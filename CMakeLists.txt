@@ -44,16 +44,12 @@ message(STATUS "Building gRPC client")
 add_subdirectory(grpc)
 target_link_libraries(simulator publisher)
 endif()
-
 # Format
 file(GLOB_RECURSE sourcefiles
-"include/*.hh"
-"src/*.cc"
-"tst/*.cc"
-
-)
+  "include/*.hh"
+  "src/*.cc"
+  "tst/*.cc")
 string (REPLACE ";" " " sourcefiles "${sourcefiles}")
 add_custom_target(format ALL
 COMMAND sh -c "clang-format -i ${sourcefiles} --verbose"
-
 VERBATIM)

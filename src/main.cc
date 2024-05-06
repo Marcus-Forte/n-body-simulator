@@ -11,6 +11,9 @@ std::unordered_map<std::string, std::array<double, 3>> color_map = {
     {"sun", {0.992, 0.722, 0.075}},
     {"moon", {0.1, 0.1, 0.1}}};
 
+std::unordered_map<std::string, double> size_map = {
+    {"earth", 10.0}, {"sun", 50.0}, {"moon", 5.0}};
+
 int main() {
   BodySystem system(0.01);
 
@@ -36,10 +39,10 @@ int main() {
   system.addBody("earth", earth);
   system.addBody("moon", moon);
 
-  // system.addBody("mars", mars);
-  // system.addBody("jupiter", jupiter);
   constexpr int iterations = 1000000;
 
+  // use `host.docker.internal:50051` when running from inside container and
+  // gRPC is running in the host.
   BodyPublisher publisher("host.docker.internal:50051", "system");
 
   for (unsigned int it = 0; it < iterations; ++it) {
@@ -47,7 +50,6 @@ int main() {
     system.printCoordinates();
     const auto bodies = system.getBodies();
 
-    // Print bodies on
     for (auto &body : bodies) {
       const auto coordinate = body.second->getPosition();
       publisher.addBodyToScene({coordinate[0], coordinate[1], 0},
