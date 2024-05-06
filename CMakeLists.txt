@@ -27,23 +27,25 @@ if(USE_CLANG_TIDY)
   )
 endif()
 
+set(GRPC_PUBLISHER_LIB "")
+if(BUILD_GRPC_CLIENT)
+  message(STATUS "Building gRPC client")
+  add_subdirectory(grpc)
+  set(GRPC_PUBLISHER_LIB "grpc_publisher")
+endif()
+
 add_executable(simulator 
   src/main.cc
   src/Body.cc
   src/BodySystem.cc)
 target_include_directories(simulator PUBLIC include)
-target_link_libraries(simulator Eigen3::Eigen)
+target_link_libraries(simulator Eigen3::Eigen ${GRPC_PUBLISHER_LIB})
 
 if(BUILD_TESTS)
 message(STATUS "Building tests")
 add_subdirectory(tst)
 endif()
 
-if(BUILD_GRPC_CLIENT)
-message(STATUS "Building gRPC client")
-add_subdirectory(grpc)
-target_link_libraries(simulator publisher)
-endif()
 # Format
 file(GLOB_RECURSE sourcefiles
   "include/*.hh"

@@ -7,9 +7,7 @@ get_filename_component(proto_path "${proto_file}" PATH)
 
 # Generated sources
 set(proto_srcs "${CMAKE_CURRENT_BINARY_DIR}/points.pb.cc")
-# set(proto_hdrs "${CMAKE_CURRENT_BINARY_DIR}/points.pb.h")
 set(grpc_srcs "${CMAKE_CURRENT_BINARY_DIR}/points.grpc.pb.cc")
-# set(grpc_hdrs "${CMAKE_CURRENT_BINARY_DIR}/points.grpc.pb.h")
 add_custom_command(
       OUTPUT "${proto_srcs}" "${grpc_srcs}"
       COMMAND $<TARGET_FILE:protobuf::protoc>
@@ -20,13 +18,13 @@ add_custom_command(
         "${proto_file}"
       DEPENDS "${proto_file}")
 
-add_library(publisher 
+add_library(grpc_publisher 
 publisher.cc
 ${proto_srcs}
 ${grpc_srcs})
 
-target_include_directories(publisher PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR})
+target_include_directories(grpc_publisher PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR})
 
-target_link_libraries(publisher
+target_link_libraries(grpc_publisher
 gRPC::grpc++
 gRPC::grpc++_reflection)

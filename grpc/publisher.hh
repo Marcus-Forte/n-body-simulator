@@ -8,14 +8,12 @@
 
 class BodyPublisher {
  public:
-  BodyPublisher(std::string&& server_address, std::string&& system_name);
-  void addBodyToScene(const std::array<double, 3> position, const std::array<double, 3> color = {1.0, 0, 0});
-  void sendToStream();
+  BodyPublisher(std::string&& server_address);
+  void writeBodyToStream(const std::string& name, const std::array<double, 3> position, const std::array<double, 3> color, float size);
 
  private:
   std::unique_ptr<addToScene::Stub> stub_;
   std::shared_ptr<grpc::Channel> channel_;
-  PointCloud3 request_;
-  std::unique_ptr<::grpc::ClientWriter<::PointCloud3>> stream_writer_;
+  std::unique_ptr<::grpc::ClientWriter<::NamedPoint3>> stream_writer_;
   grpc::ClientContext context_;
 };
