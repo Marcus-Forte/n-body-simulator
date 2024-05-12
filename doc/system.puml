@@ -2,17 +2,40 @@
 
 Class ISystem {
     +addBody(Body)
+    +removeBody(Body)
     +getBodies()
-    
-    +step()
+
+    + virtual step() = 0
 }
 
 class System { 
+}
+
+Class SystemTracer {
+}
+
+class Body {
+    +update(acceleration, dt)
+    -position
+    -mass
+    -volume
+    -color
+}
+
+class ISystemPublisher {
+    +virtual publish(ISystem) = 0
+}
+
+class gRPCPublisher {
 
 }
 
-ISystem <.. System
+class consolePublisher {}
 
+ISystem <|-- System
+ISystem <|-- SystemTracer
+ISystem "1" -o "n" Body 
 
-ISystem "1" -o "n" Body
+ISystemPublisher <|-- gRPCPublisher
+ISystemPublisher <|-- consolePublisher
 @enduml
