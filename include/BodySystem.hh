@@ -11,7 +11,7 @@ class BodySystem : public IBodySystem {
   BodySystem(double gravity_constant);
 
   /// @brief Computes interactions of all bodies of the system.
-  void step(double delta_t) override;
+  void step(double delta_t) const override;
 
  private:
 };

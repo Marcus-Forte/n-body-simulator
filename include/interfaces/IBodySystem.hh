@@ -29,7 +29,7 @@ class IBodySystem {
     return bodies_;
   }
 
-  virtual void step(double delta) = 0;
+  virtual void step(double delta) const = 0;
 
  protected:
   std::unordered_map<std::string, std::shared_ptr<Body>> bodies_;

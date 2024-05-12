@@ -12,8 +12,7 @@ class Body {
 
   Vector3 getPosition() const;
   double getMass() const;
-  void updatePosition(double delta_t);
-  void updateVelocity(Vector3 acceleration, double delta_t);
+  void update(Vector3 acceleration, double delta_t);
 
   ColorT getColor() const;
   unsigned int getVolume() const;
