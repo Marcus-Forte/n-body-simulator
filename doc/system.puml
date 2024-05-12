@@ -1,13 +1,18 @@
 @startuml nbodysystem
 
-Class System {
+Class ISystem {
     +addBody(Body)
+    +getBodies()
+    
     +step()
 }
-class Body {
-    -mass
-    -velocity
+
+class System { 
+
 }
 
-System "1" -o "n" Body
+ISystem <.. System
+
+
+ISystem "1" -o "n" Body
 @enduml

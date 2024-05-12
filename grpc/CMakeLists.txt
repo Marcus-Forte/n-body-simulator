@@ -1,7 +1,6 @@
 find_package(Protobuf CONFIG REQUIRED)
 find_package(gRPC REQUIRED)
-
-
+find_package(Eigen3 REQUIRED)
 get_filename_component(proto_file "${CMAKE_CURRENT_SOURCE_DIR}/proto/points.proto" ABSOLUTE)
 get_filename_component(proto_path "${proto_file}" PATH)
 
@@ -24,7 +23,9 @@ ${proto_srcs}
 ${grpc_srcs})
 
 target_include_directories(grpc_publisher PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR})
+target_include_directories(grpc_publisher PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
 target_link_libraries(grpc_publisher
 gRPC::grpc++
-gRPC::grpc++_reflection)
+gRPC::grpc++_reflection
+Eigen3::Eigen) # TODO decouple?

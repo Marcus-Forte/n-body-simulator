@@ -10,13 +10,18 @@
 			"extensions": [
 				"ms-vscode.cpptools-extension-pack",
 				"llvm-vs-code-extensions.vscode-clangd",
-				"jebbs.plantuml"
+				"jebbs.plantuml",
+				"cschlosser.doxdocgen"
 			],
 			"settings": {
 				"cmake.options.statusBarVisibility": "compact"
 			}
 		}
-	}
+	},
+
+	"mounts": [
+		"source=n-body-simulator-cache,target=/workspaces/n-body-simulator/build,type=volume"
+	]
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},

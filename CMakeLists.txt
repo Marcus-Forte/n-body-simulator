@@ -37,7 +37,10 @@ endif()
 add_executable(simulator 
   src/main.cc
   src/Body.cc
-  src/BodySystem.cc)
+  src/BodySystem.cc
+  src/BodySystemPublisher.cc
+  src/SystemTracer.cc
+  src/factory/BodySystemPublisherFactory.cc)
 target_include_directories(simulator PUBLIC include)
 target_link_libraries(simulator Eigen3::Eigen ${GRPC_PUBLISHER_LIB})
 

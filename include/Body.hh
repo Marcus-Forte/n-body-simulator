@@ -1,20 +1,32 @@
 #pragma once
 
-#include <Eigen/Dense>
+#include <Eigen/Dense>  // TODO improve coupling
 
 class Body {
  public:
-  using Vector2 = Eigen::Vector2d;
-  Body(double mass, Vector2 position, Vector2 velocity);
+  using Vector3 = Eigen::Vector3d;
+  using ColorT = std::array<double, 3>;
 
-  Vector2 getPosition() const;
+  explicit Body(double mass, Vector3 position, Vector3 velocity, double volume,
+                ColorT color);
+
+  Vector3 getPosition() const;
   double getMass() const;
-  /// @brief
   void updatePosition(double delta_t);
-  void updateVelocity(Vector2 acceleration, double delta_t);
+  void updateVelocity(Vector3 acceleration, double delta_t);
+
+  ColorT getColor() const;
+  unsigned int getVolume() const;
 
  private:
   double mass_;
-  Vector2 position_;
-  Vector2 velovity_;
+  Vector3 position_;
+  Vector3 velocity_;
+
+  /**
+   * @brief volume representation in INT. Relatable to the size of a pixel.
+   *
+   */
+  double volume_;
+  std::array<double, 3> color_;
 };

@@ -1,18 +1,25 @@
 #include "Body.hh"
 
-Body::Body(double mass, Vector2 position, Vector2 velocity)
+Body::Body(double mass, Vector3 position, Vector3 velocity, double volume,
+           ColorT color)
     : mass_(mass),
       position_{std::move(position)},
-      velovity_{std::move(velocity)} {}
+      velocity_{std::move(velocity)},
+      volume_(volume),
+      color_(color) {}
 
 void Body::updatePosition(double delta_t) {
-  position_ = position_ + velovity_ * delta_t;
+  position_ = position_ + velocity_ * delta_t;
 }
 
-void Body::updateVelocity(Vector2 acceleration, double delta_t) {
-  velovity_ = velovity_ + delta_t * acceleration;
+void Body::updateVelocity(Vector3 acceleration, double delta_t) {
+  velocity_ = velocity_ + acceleration * delta_t;
 }
 
-Body::Vector2 Body::getPosition() const { return position_; }
+Body::Vector3 Body::getPosition() const { return position_; }
 
 double Body::getMass() const { return mass_; }
+
+unsigned int Body::getVolume() const { return volume_; }
+
+Body::ColorT Body::getColor() const { return color_; }
