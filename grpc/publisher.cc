@@ -8,6 +8,10 @@ BodyPublisher::BodyPublisher(std::string&& server_address) {
   stub_ = addToScene::NewStub(channel_);
   google::protobuf::Empty reply;
   stream_writer_ = stub_->streamNamedPoints(&context_, &reply);
+
+  grpc::ClientContext context; // 1 per call
+  google::protobuf::Empty empty_rep;
+  stub_->resetScene(&context, {}  , &empty_rep);
 }
 
 void BodyPublisher::writeBodyToStream(const std::string& name, const Body& body)  const {
