@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y git cmake build-essential \
  libgmock-dev clang-tidy clangd clang-format \
  libeigen3-dev \
  plantuml \
+ libjsoncpp-dev \
  gdb
 
 

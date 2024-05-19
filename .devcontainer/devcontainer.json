@@ -14,7 +14,10 @@
 				"cschlosser.doxdocgen"
 			],
 			"settings": {
-				"cmake.options.statusBarVisibility": "compact"
+				"cmake.options.statusBarVisibility": "compact",
+				"cmake.debugConfig": {
+					"cwd": "${containerWorkspaceFolder}/build"
+				}
 			}
 		}
 	},

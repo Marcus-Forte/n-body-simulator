@@ -7,6 +7,7 @@ option(BUILD_TESTS "Build simulator tests" OFF)
 option(BUILD_GRPC_CLIENT "Build grpc data publisher" OFF)
 
 find_package(Eigen3 REQUIRED)
+find_package(jsoncpp REQUIRED)
 
 if(USE_CLANG_TIDY)
   message(STATUS "Using clang-tidy")
@@ -34,15 +35,26 @@ if(BUILD_GRPC_CLIENT)
   set(GRPC_PUBLISHER_LIB "grpc_publisher")
 endif()
 
-add_executable(simulator 
-  src/main.cc
+add_library(threebody
   src/Body.cc
   src/BodySystem.cc
   src/BodySystemPublisher.cc
   src/SystemTracer.cc
-  src/factory/BodySystemPublisherFactory.cc)
-target_include_directories(simulator PUBLIC include)
-target_link_libraries(simulator Eigen3::Eigen ${GRPC_PUBLISHER_LIB})
+  src/factory/BodySystemPublisherFactory.cc
+  src/factory/BodySystemFactory.cc)
+target_include_directories(threebody PUBLIC include)
+target_link_libraries(threebody Eigen3::Eigen ${GRPC_PUBLISHER_LIB} jsoncpp)
+
+configure_file(systems_json/system.json ${CMAKE_BINARY_DIR} COPYONLY)
+
+# Apps
+add_executable(solar_system
+ app/solar_system.cc)
+target_link_libraries(solar_system threebody)
+
+add_executable(threebodysystem
+app/three_body.cc)
+target_link_libraries(threebodysystem threebody)
 
 if(BUILD_TESTS)
 message(STATUS "Building tests")
