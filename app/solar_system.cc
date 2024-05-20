@@ -61,7 +61,7 @@ int main() {
   constexpr int iterations = 1000000;
 
   auto console_publisher = factory::create_console_body_system_publisher();
-  auto grpc_publisher = factory::create_grpc_publisher();
+  auto grpc_publisher = factory::create_grpc_publisher(false);
 
   auto system_tracer = SystemTracer(99);
 

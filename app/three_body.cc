@@ -20,17 +20,17 @@ int main(int argc, char** argv) {
   constexpr int iterations = 1000000;
 
   auto console_publisher = factory::create_console_body_system_publisher();
-  auto grpc_publisher = factory::create_grpc_publisher();
-
-  auto system_tracer = SystemTracer(200);
+  auto grpc_publisher = factory::create_grpc_publisher(false);
+  auto grpc_puslibher_persistent = factory::create_grpc_publisher(true);
+  auto system_tracer = SystemTracer(1);
 
   for (unsigned int it = 0; it < iterations; ++it) {
-    system->step(1e-3);
+    system->step(5e-4);
     console_publisher->publish(*system);
     grpc_publisher->publish(*system);
 
     system_tracer.capture(*system);
-    grpc_publisher->publish(system_tracer);
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    grpc_puslibher_persistent->publish(system_tracer);
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
 }

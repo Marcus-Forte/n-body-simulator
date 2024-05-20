@@ -1,12 +1,15 @@
 #include "SystemTracer.hh"
 
+#include <cassert>
 #include <iostream>
 #include <string>
 
 #include "interfaces/IBodySystem.hh"
 
 SystemTracer::SystemTracer(unsigned int history_size)
-    : IBodySystem(0.0), history_size_(history_size) {}
+    : IBodySystem(0.0), history_size_(history_size) {
+  assert(history_size_ > 0);
+}
 
 void SystemTracer::capture(const IBodySystem& system) {
   static int id = 0;
