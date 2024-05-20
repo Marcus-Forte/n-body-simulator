@@ -45,16 +45,17 @@ add_library(threebody
 target_include_directories(threebody PUBLIC include)
 target_link_libraries(threebody Eigen3::Eigen ${GRPC_PUBLISHER_LIB} jsoncpp)
 
-configure_file(systems_json/system.json ${CMAKE_BINARY_DIR} COPYONLY)
+# Copy system configs.
+file(COPY systems_json DESTINATION ${CMAKE_BINARY_DIR})
 
 # Apps
 add_executable(solar_system
  app/solar_system.cc)
 target_link_libraries(solar_system threebody)
 
-add_executable(threebodysystem
-app/three_body.cc)
-target_link_libraries(threebodysystem threebody)
+add_executable(n-body-system
+app/n_body_sim.cc)
+target_link_libraries(n-body-system threebody)
 
 if(BUILD_TESTS)
 message(STATUS "Building tests")

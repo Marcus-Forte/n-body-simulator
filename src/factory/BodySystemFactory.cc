@@ -19,6 +19,7 @@ using JsonBodies = std::list<JsonBody>;
 const std::set<std::string> g_validFields = {"name",  "pos",    "vel",
                                              "color", "volume", "mass"};
 
+// Specialize for our object.
 namespace Json {
 template <>
 JsonBodies Value::as<JsonBodies>() const {
@@ -47,7 +48,7 @@ JsonBodies Value::as<JsonBodies>() const {
     std::array<double, 3> color = {item["color"]["r"].asDouble(),
                                    item["color"]["g"].asDouble(),
                                    item["color"]["b"].asDouble()};
-    bodies.emplace_back(name,
+    bodies.emplace_back(std::move(name),
                         std::make_shared<Body>(mass, pos, vel, volume, color));
   }
 
@@ -58,7 +59,8 @@ JsonBodies Value::as<JsonBodies>() const {
 
 namespace factory {
 
-std::unique_ptr<IBodySystem> create_bodysystem(std::filesystem::path file) {
+std::unique_ptr<IBodySystem> create_bodysystem(
+    const std::filesystem::path& file) {
   if (!std::filesystem::is_regular_file(file))
     throw std::runtime_error("could not open file: " + file.string());
 
@@ -72,11 +74,12 @@ std::unique_ptr<IBodySystem> create_bodysystem(std::filesystem::path file) {
   if (!system_json.isMember("bodies"))
     throw std::runtime_error("could not find 'bodies' field");
 
-  auto bodies = system_json["bodies"].as<JsonBodies>();
   auto gravity = system_json["gravity_constant"].asDouble();
+  auto bodies_json = system_json["bodies"].as<JsonBodies>();
+
   auto system = std::make_unique<BodySystem>(gravity);
 
-  for (const auto& body : bodies) {
+  for (const auto& body : bodies_json) {
     system->addBody(body.first, body.second);
   }
 

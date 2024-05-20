@@ -10,13 +10,13 @@ class IBodySystem {
  public:
   IBodySystem(double gravity_constant) : gravity_constant_(gravity_constant) {}
   virtual ~IBodySystem() = default;
+
   inline void reset() { bodies_.clear(); }
+
   inline void addBody(const std::string& name, std::shared_ptr<Body> body,
                       bool static_body = false) {
-    {
-      bodies_.insert({name, body});
-      static_bodies_.insert({name, static_body});
-    }
+    bodies_.insert({name, body});
+    static_bodies_.insert({name, static_body});
   }
 
   inline void removeBody(const std::string& name) {
@@ -29,10 +29,15 @@ class IBodySystem {
     return bodies_;
   }
 
+  /**
+   * @brief Computes interactions of all bodies of the system.
+   *
+   * @param delta delta time.
+   */
   virtual void step(double delta) const = 0;
 
  protected:
   std::unordered_map<std::string, std::shared_ptr<Body>> bodies_;
   std::unordered_map<std::string, bool> static_bodies_;
-  double gravity_constant_;
+  const double gravity_constant_;
 };

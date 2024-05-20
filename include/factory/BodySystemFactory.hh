@@ -5,5 +5,6 @@
 #include "interfaces/IBodySystem.hh"
 
 namespace factory {
-std::unique_ptr<IBodySystem> create_bodysystem(std::filesystem::path file);
+std::unique_ptr<IBodySystem> create_bodysystem(
+    const std::filesystem::path& file);
 }

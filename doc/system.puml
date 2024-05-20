@@ -11,9 +11,6 @@ Class ISystem {
 class System { 
 }
 
-Class SystemTracer {
-}
-
 class Body {
     +update(acceleration, dt)
     -position
@@ -32,10 +29,12 @@ class gRPCPublisher {
 
 class consolePublisher {}
 
+class NullPublisher {}
+
 ISystem <|-- System
-ISystem <|-- SystemTracer
 ISystem "1" -o "n" Body 
 
 ISystemPublisher <|-- gRPCPublisher
 ISystemPublisher <|-- consolePublisher
+ISystemPublisher <|-- NullPublisher
 @enduml

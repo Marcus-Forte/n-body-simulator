@@ -16,7 +16,8 @@
 			"settings": {
 				"cmake.options.statusBarVisibility": "compact",
 				"cmake.debugConfig": {
-					"cwd": "${containerWorkspaceFolder}/build"
+					"cwd": "${containerWorkspaceFolder}/build",
+					"args": ["${containerWorkspaceFolder}/build/systems_json/system0.json"]
 				}
 			}
 		}
