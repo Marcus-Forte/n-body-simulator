@@ -6,6 +6,10 @@
 
 #include "interfaces/IBodySystem.hh"
 
+/**
+ * @brief Naive step calculator
+ * 
+ */
 class BodySystem : public IBodySystem {
  public:
   BodySystem(double gravity_constant);

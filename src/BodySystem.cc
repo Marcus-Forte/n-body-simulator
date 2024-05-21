@@ -25,6 +25,10 @@ void BodySystem::step(double delta_t) const {
       double acceleration =
           (gravity_constant_ * other_bodies.second->getMass()) /
           (distance * distance);
+
+      // Let's limit the acceleration to avoid small distance forces.
+      if (acceleration >= 1e4) acceleration = 1e4;
+
       total_acceleration += acceleration * direction;
     }
     body.second->update(total_acceleration, delta_t);

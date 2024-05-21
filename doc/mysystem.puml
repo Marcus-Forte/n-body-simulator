@@ -1,0 +1,39 @@
+@startuml nbodysystem
+note as N1
+1. Add or Remove bodies
+2. System is responsible for calculating the forces 
+3. Visually represented in real time.
+end note
+
+
+Class Body {
+    - Mass
+    - Volume
+    - Color
+    - Position
+    - Velocity
++ update(Acceleration, rate)
+}
+Class ISystem {
+    +addBody
+    +removeBody
+    + virtual step(delta time) = 0
+}
+
+class NewtonSystem {
+
+}
+
+ISystem <-- NewtonSystem
+
+class ISystemPublisher {
+    + virtual publish(ISystem)
+}
+
+ISystemPublisher <-- ConsolePublisher
+ISystemPublisher <-- NullPublisher
+ISystemPublisher <-- gRPCPublisher
+
+Body "1..N" -o "1" ISystem : "     "
+
+@enduml

@@ -48,6 +48,7 @@ JsonBodies Value::as<JsonBodies>() const {
     std::array<double, 3> color = {item["color"]["r"].asDouble(),
                                    item["color"]["g"].asDouble(),
                                    item["color"]["b"].asDouble()};
+
     bodies.emplace_back(std::move(name),
                         std::make_shared<Body>(mass, pos, vel, volume, color));
   }

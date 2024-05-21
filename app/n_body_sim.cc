@@ -21,6 +21,8 @@ int main(int argc, char** argv) {
 
   auto console_publisher = factory::create_console_body_system_publisher();
   auto grpc_publisher = factory::create_grpc_publisher(false);
+
+
   auto grpc_puslibher_persistent = factory::create_grpc_publisher(true);
   auto system_tracer = SystemTracer(1);
 
